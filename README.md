@@ -22,3 +22,7 @@
 2. Click to the Co-Writer icon in browser toolbar
 3. Please wait a moment, the revised text will be displayed shortly.
 
+## Screenshots
+
+<img width="1791" alt="image" src="https://media.git.taservs.net/user/911/files/5a9c652f-2c3f-4cc5-820f-d3a11b21bacb">
+
