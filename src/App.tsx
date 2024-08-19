@@ -1,18 +1,24 @@
+import useGetExtensionSetting from './hooks/useGetExtensionSetting';
 import React, { useEffect, useState } from 'react';
+
+const getMessageTemplate = ({
+  selectedText,
+  onlyGrammarCorrection,
+}: {
+  selectedText: string;
+  onlyGrammarCorrection: boolean;
+}): string => {
+  if (onlyGrammarCorrection) {
+    return `Improve following text: """${selectedText}"""`;
+  }
+  return `Correct grammar of following text: """${selectedText}"""`;
+};
 
 const App: React.FC = () => {
   const [selectedText, setSelectedText] = useState<string>();
   const [improvedText, setImprovedText] = useState<string>();
-  const [apiKey, setApiKey] = useState<string>();
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    chrome.storage.local.get(['apiKey'], (result) => {
-      if (result['apiKey'] !== undefined) {
-        setApiKey(result['apiKey']);
-      }
-    });
-  }, []);
-
+  const { apiKey, onlyGrammarCorrection } = useGetExtensionSetting();
   useEffect(() => {
     if (!selectedText || !apiKey) {
       return;
@@ -23,14 +29,13 @@ const App: React.FC = () => {
       messages: [
         {
           role: 'user',
-          content: `Improve following text: """${selectedText}"""`,
+          content: getMessageTemplate({ selectedText, onlyGrammarCorrection }),
         },
       ],
     };
 
     // Make the API request
     const apiUrl = 'https://api.openai.com/v1/chat/completions';
-    console.log('calling the API');
     fetch(apiUrl, {
       method: 'POST',
       headers: {
@@ -42,7 +47,6 @@ const App: React.FC = () => {
       .then((response) => response.json())
       .then((jsonResponse) => {
         const improvedText = jsonResponse.choices?.[0]?.message?.content;
-        console.log('json repsonse', improvedText);
         setImprovedText(improvedText);
       })
       .catch((error) => console.error('Error:', error))
@@ -74,7 +78,7 @@ const App: React.FC = () => {
       <h1>AI Co-Writer</h1>
       <h4>Original text:</h4>
       <p>{selectedText}</p>
-      <h4>Improved text:</h4>
+      <h4>Improved text{onlyGrammarCorrection && ' (Grammar Only)'}:</h4>
       {loading && <p>Loading...</p>}
       {!loading && improvedText && (
         <div>

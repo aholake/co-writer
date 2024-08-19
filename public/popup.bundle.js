@@ -33440,22 +33440,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _hooks_useGetExtensionSetting__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./hooks/useGetExtensionSetting */ "./src/hooks/useGetExtensionSetting.ts");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
+
+const getMessageTemplate = ({ selectedText, onlyGrammarCorrection, }) => {
+    if (onlyGrammarCorrection) {
+        return `Improve following text: """${selectedText}"""`;
+    }
+    return `Correct grammar of following text: """${selectedText}"""`;
+};
 const App = () => {
-    const [selectedText, setSelectedText] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
-    const [improvedText, setImprovedText] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
-    const [apiKey, setApiKey] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
-    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        chrome.storage.local.get(['apiKey'], (result) => {
-            if (result['apiKey'] !== undefined) {
-                setApiKey(result['apiKey']);
-            }
-        });
-    }, []);
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const [selectedText, setSelectedText] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
+    const [improvedText, setImprovedText] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
+    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const { apiKey, onlyGrammarCorrection } = (0,_hooks_useGetExtensionSetting__WEBPACK_IMPORTED_MODULE_0__["default"])();
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
         if (!selectedText || !apiKey) {
             return;
         }
@@ -33465,13 +33466,12 @@ const App = () => {
             messages: [
                 {
                     role: 'user',
-                    content: `Improve following text: """${selectedText}"""`,
+                    content: getMessageTemplate({ selectedText, onlyGrammarCorrection }),
                 },
             ],
         };
         // Make the API request
         const apiUrl = 'https://api.openai.com/v1/chat/completions';
-        console.log('calling the API');
         fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -33483,7 +33483,6 @@ const App = () => {
             .then((response) => response.json())
             .then((jsonResponse) => {
             const improvedText = jsonResponse.choices?.[0]?.message?.content;
-            console.log('json repsonse', improvedText);
             setImprovedText(improvedText);
         })
             .catch((error) => console.error('Error:', error))
@@ -33501,22 +33500,58 @@ const App = () => {
             setSelectedText(results[0].result);
         });
     };
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
         getSelectedText();
     }, []);
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "AI Co-Writer"),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", null, "Original text:"),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, selectedText),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h4", null, "Improved text:"),
-        loading && react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Loading..."),
-        !loading && improvedText && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, improvedText),
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: () => {
+    return (react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h1", null, "AI Co-Writer"),
+        react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null, "Original text:"),
+        react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, selectedText),
+        react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h4", null,
+            "Improved text",
+            onlyGrammarCorrection && ' (Grammar Only)',
+            ":"),
+        loading && react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Loading..."),
+        !loading && improvedText && (react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null,
+            react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, improvedText),
+            react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", { onClick: () => {
                     navigator.clipboard.writeText(improvedText);
                 } }, "Copy to clipboard")))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
+
+
+/***/ }),
+
+/***/ "./src/hooks/useGetExtensionSetting.ts":
+/*!*********************************************!*\
+  !*** ./src/hooks/useGetExtensionSetting.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const useGetExtensionSetting = () => {
+    const [setting, setSetting] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+        apiKey: '',
+        onlyGrammarCorrection: false,
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        chrome.storage.local.get(['apiKey', 'onlyGrammarCorrection'], (result) => {
+            console.log('result', result);
+            if (result['apiKey'] !== undefined) {
+                setSetting({ ...setting, ...result });
+            }
+        });
+    }, []);
+    return setting;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useGetExtensionSetting);
 
 
 /***/ })

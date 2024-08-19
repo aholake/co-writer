@@ -1,22 +1,31 @@
+import useGetExtensionSetting, {
+  Setting,
+} from '../hooks/useGetExtensionSetting';
 import React, { useEffect, useState } from 'react';
 
-type Setting = {
-  apiKey?: string;
-};
-
 const Settings: React.FC = () => {
-  const [setting, setSetting] = useState<Setting>({});
+  const [setting, setSetting] = useState<Setting>({
+    apiKey: '',
+    onlyGrammarCorrection: false,
+  });
   // Load settings from storage when the component mounts
+  const savedSetting = useGetExtensionSetting();
   useEffect(() => {
-    chrome.storage.local.get(['apiKey'], (result) => {
+    setSetting({ ...setting, ...savedSetting });
+  }, [savedSetting]);
+
+  useEffect(() => {
+    chrome.storage.local.get(['apiKey', 'onlyGrammarCorrection'], (result) => {
+      console.log('result', result);
       if (result['apiKey'] !== undefined) {
-        setSetting({ ...setting, apiKey: result['apiKey'] });
+        setSetting({ ...setting, ...result });
       }
     });
   }, []);
 
   const handleSave = () => {
     // Save settings to chrome.storage
+    console.log(setting);
     chrome.storage.local.set(setting, () => {
       alert('Settings saved');
     });
@@ -24,7 +33,7 @@ const Settings: React.FC = () => {
 
   return (
     <div>
-      <label>
+      <div>
         ChatGPT API Key:
         <input
           type="text"
@@ -33,7 +42,19 @@ const Settings: React.FC = () => {
             setSetting({ ...setting, apiKey: e.target.value });
           }}
         />
-      </label>
+      </div>
+      <div>
+        <label htmlFor="myCheckbox">Correct grammar only:</label>
+        <input
+          type="checkbox"
+          id="myCheckbox"
+          name="myCheckbox"
+          checked={setting.onlyGrammarCorrection}
+          onChange={(e) => {
+            setSetting({ ...setting, onlyGrammarCorrection: e.target.checked });
+          }}
+        />
+      </div>
       <button onClick={handleSave}>Save</button>
     </div>
   );

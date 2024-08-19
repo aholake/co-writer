@@ -33440,34 +33440,83 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _hooks_useGetExtensionSetting__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../hooks/useGetExtensionSetting */ "./src/hooks/useGetExtensionSetting.ts");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
 
 const Settings = () => {
-    const [setting, setSetting] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
+    const [setting, setSetting] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
+        apiKey: '',
+        onlyGrammarCorrection: false,
+    });
     // Load settings from storage when the component mounts
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        chrome.storage.local.get(['apiKey'], (result) => {
+    const savedSetting = (0,_hooks_useGetExtensionSetting__WEBPACK_IMPORTED_MODULE_0__["default"])();
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        setSetting({ ...setting, ...savedSetting });
+    }, [savedSetting]);
+    (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+        chrome.storage.local.get(['apiKey', 'onlyGrammarCorrection'], (result) => {
+            console.log('result', result);
             if (result['apiKey'] !== undefined) {
-                setSetting({ ...setting, apiKey: result['apiKey'] });
+                setSetting({ ...setting, ...result });
             }
         });
     }, []);
     const handleSave = () => {
         // Save settings to chrome.storage
+        console.log(setting);
         chrome.storage.local.set(setting, () => {
             alert('Settings saved');
         });
     };
-    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", null,
+    return (react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null,
             "ChatGPT API Key:",
-            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "text", value: setting.apiKey, onChange: (e) => {
+            react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", { type: "text", value: setting.apiKey, onChange: (e) => {
                     setSetting({ ...setting, apiKey: e.target.value });
                 } })),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { onClick: handleSave }, "Save")));
+        react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null,
+            react__WEBPACK_IMPORTED_MODULE_1___default().createElement("label", { htmlFor: "myCheckbox" }, "Correct grammar only:"),
+            react__WEBPACK_IMPORTED_MODULE_1___default().createElement("input", { type: "checkbox", id: "myCheckbox", name: "myCheckbox", checked: setting.onlyGrammarCorrection, onChange: (e) => {
+                    setSetting({ ...setting, onlyGrammarCorrection: e.target.checked });
+                } })),
+        react__WEBPACK_IMPORTED_MODULE_1___default().createElement("button", { onClick: handleSave }, "Save")));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Settings);
+
+
+/***/ }),
+
+/***/ "./src/hooks/useGetExtensionSetting.ts":
+/*!*********************************************!*\
+  !*** ./src/hooks/useGetExtensionSetting.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const useGetExtensionSetting = () => {
+    const [setting, setSetting] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+        apiKey: '',
+        onlyGrammarCorrection: false,
+    });
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        chrome.storage.local.get(['apiKey', 'onlyGrammarCorrection'], (result) => {
+            console.log('result', result);
+            if (result['apiKey'] !== undefined) {
+                setSetting({ ...setting, ...result });
+            }
+        });
+    }, []);
+    return setting;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useGetExtensionSetting);
 
 
 /***/ })
@@ -33569,7 +33618,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const Options = () => {
     return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Extension Settings"),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "AI Co-Writer Settings"),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Settings__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
 };
 const root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById('root'));

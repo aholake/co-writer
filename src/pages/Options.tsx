@@ -5,7 +5,7 @@ import Settings from '../components/Settings';
 const Options: React.FC = () => {
   return (
     <div>
-      <h1>Extension Settings</h1>
+      <h1>AI Co-Writer Settings</h1>
       <Settings />
     </div>
   );
