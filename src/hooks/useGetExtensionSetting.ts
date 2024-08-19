@@ -12,10 +12,7 @@ const useGetExtensionSetting = (): Setting => {
   });
   useEffect(() => {
     chrome.storage.local.get(['apiKey', 'onlyGrammarCorrection'], (result) => {
-      console.log('result', result);
-      if (result['apiKey'] !== undefined) {
-        setSetting({ ...setting, ...result });
-      }
+      setSetting({ ...setting, ...result });
     });
   }, []);
   return setting;
