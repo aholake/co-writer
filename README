@@ -12,6 +12,10 @@
     Enable "Developer mode" in the top right corner.
     Click on "Load unpacked" and select folder `public` in cloned repository.
 
+3. **Set up the ChatGPT API Key**  
+   Right-click the extension icon in the toolbar and select `Options`. This will take you to the settings page where you can enter your personal API key.  
+   Once you have entered your key, click the save button to apply the changes.
+
 ## Usage
 
 1. Please select any text on your website
