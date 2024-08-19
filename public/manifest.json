@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Co Writer",
+    "version": "1.0.0",
+    "description": "An utility leverages ChatGPT model to rephrase any selected text.",
+    "icons": {
+      "48": "icon.png"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "index.html",
+      "default_icon": {
+        "48": "icon.png"
+      }
+    },
+    "options_page": "options.html",
+    "permissions": ["storage"]
+  }
+  
