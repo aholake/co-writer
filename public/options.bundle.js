@@ -33508,10 +33508,7 @@ const useGetExtensionSetting = () => {
     });
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         chrome.storage.local.get(['apiKey', 'onlyGrammarCorrection'], (result) => {
-            console.log('result', result);
-            if (result['apiKey'] !== undefined) {
-                setSetting({ ...setting, ...result });
-            }
+            setSetting({ ...setting, ...result });
         });
     }, []);
     return setting;
@@ -33621,6 +33618,7 @@ const Options = () => {
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "AI Co-Writer Settings"),
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Settings__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
 };
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById('root'));
 root.render(react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Options, null));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Options);

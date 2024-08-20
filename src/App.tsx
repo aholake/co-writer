@@ -9,9 +9,9 @@ const getMessageTemplate = ({
   onlyGrammarCorrection: boolean;
 }): string => {
   if (onlyGrammarCorrection) {
-    return `Improve following text: """${selectedText}"""`;
+    return `Correct grammatically for the following text: """${selectedText}"""`;
   }
-  return `Correct grammar of following text: """${selectedText}"""`;
+  return `Improve writing for this sentence: """${selectedText}"""`;
 };
 
 const App: React.FC = () => {

@@ -33447,9 +33447,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const getMessageTemplate = ({ selectedText, onlyGrammarCorrection, }) => {
     if (onlyGrammarCorrection) {
-        return `Improve following text: """${selectedText}"""`;
+        return `Correct grammatically for the following text: """${selectedText}"""`;
     }
-    return `Correct grammar of following text: """${selectedText}"""`;
+    return `Improve writing for this sentence: """${selectedText}"""`;
 };
 const App = () => {
     const [selectedText, setSelectedText] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
@@ -33543,10 +33543,7 @@ const useGetExtensionSetting = () => {
     });
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         chrome.storage.local.get(['apiKey', 'onlyGrammarCorrection'], (result) => {
-            console.log('result', result);
-            if (result['apiKey'] !== undefined) {
-                setSetting({ ...setting, ...result });
-            }
+            setSetting({ ...setting, ...result });
         });
     }, []);
     return setting;
@@ -33648,6 +33645,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById('root'));
 root.render(react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_App__WEBPACK_IMPORTED_MODULE_2__["default"], null));
 
