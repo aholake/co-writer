@@ -1,3 +1,4 @@
+import useGetChatGPTResponse from './hooks/useGetChatGPTResponse';
 import useGetExtensionSetting from './hooks/useGetExtensionSetting';
 import React, { useEffect, useState } from 'react';
 
@@ -8,50 +9,23 @@ const getMessageTemplate = ({
   selectedText: string;
   onlyGrammarCorrection: boolean;
 }): string => {
-  if (onlyGrammarCorrection) {
-    return `Correct grammatically for the following text: """${selectedText}"""`;
+  if (!selectedText) {
+    return '';
   }
-  return `Improve writing for this sentence: """${selectedText}"""`;
+  if (onlyGrammarCorrection) {
+    return `Correct grammar for the following text, answer directly without adding any context or explanation: """${selectedText}"""`;
+  }
+  return `Improve writing for following sentence, answer directly without adding any context or explanation: : """${selectedText}"""`;
 };
 
 const App: React.FC = () => {
-  const [selectedText, setSelectedText] = useState<string>();
-  const [improvedText, setImprovedText] = useState<string>();
-  const [loading, setLoading] = useState(false);
+  const [selectedText, setSelectedText] = useState<string>('');
   const { apiKey, onlyGrammarCorrection } = useGetExtensionSetting();
-  useEffect(() => {
-    if (!selectedText || !apiKey) {
-      return;
-    }
-    setLoading(true);
-    const data = {
-      model: 'gpt-3.5-turbo',
-      messages: [
-        {
-          role: 'user',
-          content: getMessageTemplate({ selectedText, onlyGrammarCorrection }),
-        },
-      ],
-    };
 
-    // Make the API request
-    const apiUrl = 'https://api.openai.com/v1/chat/completions';
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((jsonResponse) => {
-        const improvedText = jsonResponse.choices?.[0]?.message?.content;
-        setImprovedText(improvedText);
-      })
-      .catch((error) => console.error('Error:', error))
-      .finally(() => setLoading(false));
-  }, [selectedText, apiKey]);
+  const { result, loading } = useGetChatGPTResponse(
+    getMessageTemplate({ selectedText, onlyGrammarCorrection }),
+    apiKey,
+  );
 
   const getSelectedText = async () => {
     const [tab] = await chrome.tabs.query({
@@ -65,7 +39,7 @@ const App: React.FC = () => {
         func: () => window?.getSelection()?.toString(),
       },
       (results) => {
-        setSelectedText(results[0].result);
+        setSelectedText(results[0].result || '');
       },
     );
   };
@@ -73,19 +47,20 @@ const App: React.FC = () => {
   useEffect(() => {
     getSelectedText();
   }, []);
+
   return (
     <div>
       <h1>AI Co-Writer</h1>
       <h4>Original text:</h4>
-      <p>{selectedText}</p>
+      <p>{selectedText || 'Please select a text to continue...'}</p>
       <h4>Improved text{onlyGrammarCorrection && ' (Grammar Only)'}:</h4>
       {loading && <p>Loading...</p>}
-      {!loading && improvedText && (
+      {!loading && result && (
         <div>
-          <p>{improvedText}</p>
+          <p>{result}</p>
           <button
             onClick={() => {
-              navigator.clipboard.writeText(improvedText);
+              navigator.clipboard.writeText(result);
             }}
           >
             Copy to clipboard
