@@ -1,7 +1,5 @@
 # ChatGPT Co-Writer Chrome Extension
 
-![icon](https://media.git.taservs.net/user/911/files/f7677013-4446-4a47-aa4e-91b3aa7e3e28)
-
 ## Installation
 
 1. **Clone the repository:**
@@ -25,6 +23,6 @@
 3. Please wait a moment, the revised text will be displayed shortly.
 
 ## Screenshots
+![image](https://github.com/user-attachments/assets/b4e48c54-6749-4c96-98fe-6ba2f6f40b0c)
 
-<img width="1791" alt="image" src="https://media.git.taservs.net/user/911/files/5a9c652f-2c3f-4cc5-820f-d3a11b21bacb">
 
