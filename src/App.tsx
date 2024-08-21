@@ -48,6 +48,14 @@ const App: React.FC = () => {
     getSelectedText();
   }, []);
 
+  if (!apiKey) {
+    return (
+      <div>
+        <h2>Please setup your API key first</h2>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h1>AI Co-Writer</h1>
