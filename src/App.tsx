@@ -1,7 +1,10 @@
 import useGetChatGPTResponse from './hooks/useGetChatGPTResponse';
 import useGetExtensionSetting from './hooks/useGetExtensionSetting';
 import React, { useEffect, useState } from 'react';
-import './App.css';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import * as styles from './App.module.css';
 
 const getMessageTemplate = ({
   selectedText,
@@ -58,20 +61,20 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className={'popupContainer'}>
-      <h2 className={'titleText'}>Original text:</h2>
-      <p className={'bodyText'}>
+    <div className={styles.popupContainer}>
+      <h2 className={styles.titleText}>Original text:</h2>
+      <p className={styles.bodyText}>
         {selectedText || 'Please select a text to continue...'}
       </p>
-      <h2 className={'titleText'}>
+      <h2 className={styles.titleText}>
         Improved text{onlyGrammarCorrection && ' (Grammar Only)'}:
       </h2>
       {loading && <p className={'bodyText'}>Loading...</p>}
       {!loading && result && (
         <div>
-          <p className={'bodyText'}>{result}</p>
+          <p className={styles.bodyText}>{result}</p>
           <button
-            className="copyButton"
+            className={styles.copyButton}
             onClick={() => {
               navigator.clipboard.writeText(result);
             }}

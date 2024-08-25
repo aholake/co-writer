@@ -15,7 +15,6 @@
         "@babel/preset-env": "^7.25.4",
         "@babel/preset-typescript": "^7.24.7",
         "@types/chrome": "^0.0.270",
-        "@types/css-modules": "^1.0.5",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "@typescript-eslint/eslint-plugin": "^5.56.0",
