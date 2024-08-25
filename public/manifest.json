@@ -6,9 +6,9 @@
     "icons": {
       "48": "icon.png"
     },
-    "permissions": ["storage","contextMenus", "scripting"],
+    "permissions": ["storage", "scripting"],
     "background": {
-      "service_worker": "background.js"
+      "service_worker": "background.bundle.js"
     },
     "host_permissions": [
       "*://*/*"

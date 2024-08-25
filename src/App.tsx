@@ -1,6 +1,7 @@
 import useGetChatGPTResponse from './hooks/useGetChatGPTResponse';
 import useGetExtensionSetting from './hooks/useGetExtensionSetting';
 import React, { useEffect, useState } from 'react';
+import './App.css';
 
 const getMessageTemplate = ({
   selectedText,
@@ -57,16 +58,20 @@ const App: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>AI Co-Writer</h1>
-      <h4>Original text:</h4>
-      <p>{selectedText || 'Please select a text to continue...'}</p>
-      <h4>Improved text{onlyGrammarCorrection && ' (Grammar Only)'}:</h4>
-      {loading && <p>Loading...</p>}
+    <div className={'popupContainer'}>
+      <h2 className={'titleText'}>Original text:</h2>
+      <p className={'bodyText'}>
+        {selectedText || 'Please select a text to continue...'}
+      </p>
+      <h2 className={'titleText'}>
+        Improved text{onlyGrammarCorrection && ' (Grammar Only)'}:
+      </h2>
+      {loading && <p className={'bodyText'}>Loading...</p>}
       {!loading && result && (
         <div>
-          <p>{result}</p>
+          <p className={'bodyText'}>{result}</p>
           <button
+            className="copyButton"
             onClick={() => {
               navigator.clipboard.writeText(result);
             }}
