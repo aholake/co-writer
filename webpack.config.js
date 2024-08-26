@@ -13,6 +13,21 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.module\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: false,
+              },
+            },
+          },
+        ],
+      },
+      {
         test: /\.(ts|tsx)$/, // Apply this rule to .ts files
         exclude: /node_modules/,
         use: {
@@ -26,18 +41,6 @@ module.exports = {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: 'ts-loader',
-      },
-      {
-        test: /\.css$/i,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true, // Enable CSS Modules
-            },
-          },
-        ],
       },
     ],
   },

@@ -2,9 +2,7 @@ import useGetChatGPTResponse from './hooks/useGetChatGPTResponse';
 import useGetExtensionSetting from './hooks/useGetExtensionSetting';
 import React, { useEffect, useState } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
-import * as styles from './App.module.css';
+import styles from './styles.module.css';
 
 const getMessageTemplate = ({
   selectedText,

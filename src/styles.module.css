@@ -1,13 +1,15 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    width: 400px;
-    margin: 0;
-    padding: 12px 8px;
-}
 
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    
+}
 /* Container styling */
 .popupContainer {
+    width: 400px;
+    padding: 12px;
 }
 
 /* Title styling */
