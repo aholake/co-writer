@@ -28,27 +28,6 @@ body {
     line-height: 1.6;
 }
 
-/* Button styling */
-.popupContainer .copyButton {
-    display: inline-block;
-    padding: 8px 16px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-/* Button hover effect */
-.popupContainer .copyButton:hover {
-    background-color: #0056b3;
-}
-
 /* Adjust the bottom margin for better spacing */
 .popupContainer .bodyText:last-child {
     margin-bottom: 0;

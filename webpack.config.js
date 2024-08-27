@@ -19,13 +19,19 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              esModule: true,
+              importLoaders: 1,
               modules: {
                 namedExport: false,
+                localIdentName: '[local]__[hash:base64:5]',
               },
             },
           },
         ],
+      },
+      {
+        test: /\.css$/,
+        exclude: /\.module\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(ts|tsx)$/, // Apply this rule to .ts files

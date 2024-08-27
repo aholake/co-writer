@@ -3,6 +3,7 @@ import useGetExtensionSetting from './hooks/useGetExtensionSetting';
 import React, { useEffect, useState } from 'react';
 
 import styles from './styles.module.css';
+import './global.css';
 
 const getMessageTemplate = ({
   selectedText,
@@ -72,7 +73,6 @@ const App: React.FC = () => {
         <div>
           <p className={styles.bodyText}>{result}</p>
           <button
-            className={styles.copyButton}
             onClick={() => {
               navigator.clipboard.writeText(result);
             }}
